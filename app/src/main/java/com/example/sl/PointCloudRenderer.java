@@ -70,18 +70,32 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         // 限制X轴旋转角度
         if (rotationX > 90.0f) rotationX = 90.0f;
         if (rotationX < -90.0f) rotationX = -90.0f;
+
+        Log.d(TAG, "Rotation - X: " + rotationX + ", Y: " + rotationY);
     }
 
-    public void zoom(float scale) {
-        distance *= scale;
+    public void zoom(float scaleFactor) {
+        // 反转缩放方向，使双指聚拢时缩小，分开时放大
+        float zoomFactor = 1.0f / scaleFactor;
+
+        // 限制缩放速度，避免过快
+        zoomFactor = Math.max(0.7f, Math.min(1.3f, zoomFactor));
+
+        distance *= zoomFactor;
+
+        // 限制缩放范围
         if (distance < 1.0f) distance = 1.0f;
         if (distance > 20.0f) distance = 20.0f;
+
+        Log.d(TAG, "Zoom - scaleFactor: " + scaleFactor +
+                ", zoomFactor: " + zoomFactor + ", distance: " + distance);
     }
 
     public void resetView() {
         rotationX = 0.0f;
         rotationY = 0.0f;
         distance = 3.0f;
+        Log.d(TAG, "View reset to default");
     }
 
     public void setPointCloudData(PointCloudData data) {
