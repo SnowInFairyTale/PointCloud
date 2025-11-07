@@ -17,7 +17,8 @@ public class MeshActivity extends AppCompatActivity {
         Log.e("MeshActivity", System.currentTimeMillis() + " start");
         // 转换为网格
 //        MeshData meshData = FastSurfaceReconstructor.fastReconstruction(PointCloudDataHolder.getPointCloudData(), 0.1f, 100000);
-        MeshData meshData = FastSurfaceReconstructor.ultraFastReconstruction(PointCloudDataHolder.getPointCloudData());
+//        MeshData meshData = FastSurfaceReconstructor.ultraFastReconstruction(PointCloudDataHolder.getPointCloudData());
+        MeshData meshData = UniformSurfaceReconstructor.autoReconstruct(PointCloudDataHolder.getPointCloudData());
 
         // 使用网格渲染器
         MeshRenderer renderer = new MeshRenderer(this, meshData);
