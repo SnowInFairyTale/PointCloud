@@ -118,8 +118,8 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
         // 加载和创建着色器程序
-        String vertexShaderCode = ShaderUtils.readShaderFromAssets(context, "vertex_shader.glsl");
-        String fragmentShaderCode = ShaderUtils.readShaderFromAssets(context, "fragment_shader.glsl");
+        String vertexShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/normal/vertex_shader.glsl");
+        String fragmentShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/normal/fragment_shader.glsl");
 
         if (vertexShaderCode == null || fragmentShaderCode == null) {
             Log.e(TAG, "Failed to load shader code");

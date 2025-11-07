@@ -8,6 +8,9 @@ out vec4 vColor;
 
 void main() {
     gl_Position = uMVPMatrix * vec4(aPosition, 1.0);
-    gl_PointSize = 3.0;
+
+    // 固定点大小，性能更好
+    gl_PointSize = 2.0;
+
     vColor = aColor;
 }
