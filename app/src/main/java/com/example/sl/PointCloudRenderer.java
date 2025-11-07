@@ -110,8 +110,8 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         GLES30.glDepthFunc(GLES30.GL_LEQUAL);
 
         // 启用点平滑（可选）
-        GLES30.glEnable(GLES30.GL_POINT_SMOOTH);
-        GLES30.glHint(GLES30.GL_POINT_SMOOTH_HINT, GLES30.GL_NICEST);
+//        GLES30.glEnable(GLES30.GL_POINT_SMOOTH);
+//        GLES30.glHint(GLES30.GL_POINT_SMOOTH_HINT, GLES30.GL_NICEST);
 
         // 混合设置（如果使用透明效果）
         GLES30.glEnable(GLES30.GL_BLEND);
@@ -262,10 +262,12 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         GLES30.glBindVertexArray(0);
 
         // 检查OpenGL错误
-        int error = GLES30.glGetError();
-        if (error != GLES30.GL_NO_ERROR) {
-            Log.e(TAG, "OpenGL error in onDrawFrame: " + error);
-        }
+
+        checkGLError("onDrawFrame");
+//        int error = GLES30.glGetError();
+//        if (error != GLES30.GL_NO_ERROR) {
+//            Log.e(TAG, "OpenGL error in onDrawFrame: " + error);
+//        }
     }
 
     private void checkGLError(String operation) {
