@@ -30,6 +30,9 @@
         <activity
             android:name=".ListActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".MeshActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

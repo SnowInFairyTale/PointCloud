@@ -39,6 +39,10 @@ public class ListActivity extends AppCompatActivity {
         findViewById(R.id.quality).setOnClickListener(v -> {
             startPage("quality");
         });
+        findViewById(R.id.mesh).setOnClickListener(v -> {
+            Intent intent = new Intent(ListActivity.this, MeshActivity.class);
+            startActivity(intent);
+        });
 
     }
 
