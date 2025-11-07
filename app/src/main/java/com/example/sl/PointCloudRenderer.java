@@ -5,8 +5,10 @@ import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.Matrix;
 import android.util.Log;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+
 import java.nio.FloatBuffer;
 
 public class PointCloudRenderer implements GLSurfaceView.Renderer {
@@ -37,10 +39,12 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
     private float previousX;
     private float previousY;
     private boolean isRotating = false;
+    private int mode;
 
-    public PointCloudRenderer(Context context, PointCloudData data) {
+    public PointCloudRenderer(Context context, PointCloudData data, int mode) {
         this.context = context;
         this.pointCloudData = data;
+        this.mode = mode;
 
         // 初始化矩阵
         Matrix.setIdentityM(modelMatrix, 0);
@@ -98,6 +102,15 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         }
     }
 
+    private String getShader(int mode) {
+        switch (mode) {
+            case 1:
+                return "normal";
+            default:
+                return "";
+        }
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.i(TAG, "onSurfaceCreated");
@@ -117,9 +130,11 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         GLES30.glEnable(GLES30.GL_BLEND);
         GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
+        String folder = getShader(mode);
+
         // 加载和创建着色器程序
-        String vertexShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/normal/vertex_shader.glsl");
-        String fragmentShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/normal/fragment_shader.glsl");
+        String vertexShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/" + folder + "/vertex_shader.glsl");
+        String fragmentShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/" + folder + "/fragment_shader.glsl");
 
         if (vertexShaderCode == null || fragmentShaderCode == null) {
             Log.e(TAG, "Failed to load shader code");

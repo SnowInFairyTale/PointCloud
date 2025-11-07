@@ -9,11 +9,11 @@ public class PointCloudGLSurfaceView extends GLSurfaceView {
     private float previousX;
     private float previousY;
 
-    public PointCloudGLSurfaceView(Context context, PointCloudData data) {
+    public PointCloudGLSurfaceView(Context context, PointCloudData data, int mode) {
         super(context);
 
         setEGLContextClientVersion(3);
-        renderer = new PointCloudRenderer(context, data);
+        renderer = new PointCloudRenderer(context, data, mode);
         setRenderer(renderer);
         setRenderMode(GLSurfaceView.RENDERMODE_CONTINUOUSLY);
     }
