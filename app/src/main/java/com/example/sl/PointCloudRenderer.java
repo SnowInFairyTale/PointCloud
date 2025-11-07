@@ -39,9 +39,9 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
     private float previousX;
     private float previousY;
     private boolean isRotating = false;
-    private final int mode;
+    private final String mode;
 
-    public PointCloudRenderer(Context context, PointCloudData data, int mode) {
+    public PointCloudRenderer(Context context, PointCloudData data, String mode) {
         this.context = context;
         this.pointCloudData = data;
         this.mode = mode;
@@ -116,15 +116,6 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         }
     }
 
-    private String getShader(int mode) {
-        switch (mode) {
-            case 1:
-                return "normal";
-            default:
-                return "";
-        }
-    }
-
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.i(TAG, "onSurfaceCreated");
@@ -144,11 +135,9 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         GLES30.glEnable(GLES30.GL_BLEND);
         GLES30.glBlendFunc(GLES30.GL_SRC_ALPHA, GLES30.GL_ONE_MINUS_SRC_ALPHA);
 
-        String folder = getShader(mode);
-
         // 加载和创建着色器程序
-        String vertexShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/" + folder + "/vertex_shader.glsl");
-        String fragmentShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/" + folder + "/fragment_shader.glsl");
+        String vertexShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/" + mode + "/vertex_shader.glsl");
+        String fragmentShaderCode = ShaderUtils.readShaderFromAssets(context, "shader/" + mode + "/fragment_shader.glsl");
 
         if (vertexShaderCode == null || fragmentShaderCode == null) {
             Log.e(TAG, "Failed to load shader code");

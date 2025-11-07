@@ -15,21 +15,35 @@
         android:textSize="18dp" />
 
     <Button
+        android:id="@+id/circle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="normal"
         android:textSize="18dp" />
 
     <Button
+        android:id="@+id/fast"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="normal"
         android:textSize="18dp" />
 
 
     <Button
+        android:id="@+id/light"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="normal"
+        android:textSize="18dp" />
+
+    <Button
+        android:id="@+id/smooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:text="normal"
         android:textSize="18dp" />
 

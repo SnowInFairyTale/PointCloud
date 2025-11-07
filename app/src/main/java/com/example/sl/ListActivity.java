@@ -21,13 +21,25 @@ public class ListActivity extends AppCompatActivity {
             return insets;
         });
 
-        findViewById(com.example.sl.R.id.normal).setOnClickListener(v -> {
-            startPage(1);
+        findViewById(R.id.normal).setOnClickListener(v -> {
+            startPage("normal");
+        });
+        findViewById(R.id.circle).setOnClickListener(v -> {
+            startPage("circle");
+        });
+        findViewById(R.id.fast).setOnClickListener(v -> {
+            startPage("fast");
+        });
+        findViewById(R.id.light).setOnClickListener(v -> {
+            startPage("light");
+        });
+        findViewById(R.id.smooth).setOnClickListener(v -> {
+            startPage("smooth");
         });
 
     }
 
-    private void startPage(int mode) {
+    private void startPage(String mode) {
         Intent intent = new Intent(ListActivity.this, MainActivity.class);
         intent.putExtra("mode", mode);
         startActivity(intent);

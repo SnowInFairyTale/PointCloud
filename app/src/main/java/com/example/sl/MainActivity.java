@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
             return insets;
         });
 
-        int mode = getIntent().getIntExtra("mode", 1);
+        String mode = getIntent().getStringExtra("mode");
 
         glSurfaceView = new PointCloudGLSurfaceView(MainActivity.this, PointCloudDataHolder.getPointCloudData(), mode);
         setContentView(glSurfaceView);

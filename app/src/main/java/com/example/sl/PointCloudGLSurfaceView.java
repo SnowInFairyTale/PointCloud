@@ -13,7 +13,7 @@ public class PointCloudGLSurfaceView extends GLSurfaceView {
     private long lastTouchTime = 0;
     private static final int DOUBLE_TAP_TIME_DELTA = 300; // 毫秒
 
-    public PointCloudGLSurfaceView(Context context, PointCloudData data, int mode) {
+    public PointCloudGLSurfaceView(Context context, PointCloudData data, String mode) {
         super(context);
 
         setEGLContextClientVersion(3);
