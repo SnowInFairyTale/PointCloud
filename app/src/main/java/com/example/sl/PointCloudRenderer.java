@@ -84,7 +84,7 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         distance *= zoomFactor;
 
         // 限制缩放范围
-        if (distance < 1.25f) distance = 1.25f;
+        if (distance < 1.5f) distance = 1.51f;
         if (distance > 10.0f) distance = 10.0f;
 
         Log.d(TAG, "Zoom - scaleFactor: " + scaleFactor +
