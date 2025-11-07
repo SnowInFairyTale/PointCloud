@@ -4,6 +4,7 @@ precision highp float;  // 使用高精度
 in vec4 vColor;
 out vec4 fragColor;
 
+
 void main() {
     // 高质量圆形点计算
     vec2 coord = gl_PointCoord * 2.0 - 1.0;
