@@ -1,5 +1,7 @@
 package com.example.sl;
 
+package com.example.pointcloudviewer;
+
 import android.content.Context;
 import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
@@ -80,6 +82,24 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         distance = 3.0f;
     }
 
+    public void setPointCloudData(PointCloudData data) {
+        this.pointCloudData = data;
+        if (pointCloudData != null) {
+            pointCloudData.normalizePoints();
+            pointCloudData.logBounds();
+
+            // 重新计算中心点
+            centerPoint[0] = (pointCloudData.minX + pointCloudData.maxX) / 2.0f;
+            centerPoint[1] = (pointCloudData.minY + pointCloudData.maxY) / 2.0f;
+            centerPoint[2] = (pointCloudData.minZ + pointCloudData.maxZ) / 2.0f;
+
+            // 重新设置缓冲区
+            if (program != 0) {
+                setupBuffers();
+            }
+        }
+    }
+
     @Override
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         Log.i(TAG, "onSurfaceCreated");
@@ -90,6 +110,10 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         // 启用深度测试
         GLES30.glEnable(GLES30.GL_DEPTH_TEST);
         GLES30.glDepthFunc(GLES30.GL_LEQUAL);
+
+        // 启用点平滑（可选）
+        GLES30.glEnable(GLES30.GL_POINT_SMOOTH);
+        GLES30.glHint(GLES30.GL_POINT_SMOOTH_HINT, GLES30.GL_NICEST);
 
         // 混合设置（如果使用透明效果）
         GLES30.glEnable(GLES30.GL_BLEND);
@@ -195,6 +219,9 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         // 设置透视投影
         Matrix.frustumM(projectionMatrix, 0, -ratio, ratio, -1, 1, 1, 100);
 
+        // 或者使用透视投影（可选）
+        // Matrix.perspectiveM(projectionMatrix, 0, 45.0f, ratio, 0.1f, 100.0f);
+
         checkGLError("onSurfaceChanged");
     }
 
@@ -237,7 +264,10 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
         GLES30.glBindVertexArray(0);
 
         // 检查OpenGL错误
-        checkGLError("onDrawFrame");
+        int error = GLES30.glGetError();
+        if (error != GLES30.GL_NO_ERROR) {
+            Log.e(TAG, "OpenGL error in onDrawFrame: " + error);
+        }
     }
 
     private void checkGLError(String operation) {
@@ -264,12 +294,25 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
 
     public void cleanup() {
         Log.i(TAG, "Cleaning up OpenGL resources");
+
         cleanupBuffers();
 
         if (program != 0) {
             GLES30.glDeleteProgram(program);
             program = 0;
         }
+    }
+
+    // 获取当前渲染状态信息
+    public String getRenderInfo() {
+        if (pointCloudData == null) {
+            return "No point cloud data";
+        }
+
+        return String.format(
+                "Points: %,d | Distance: %.1f | Rotation: (%.1f, %.1f)",
+                pointCloudData.pointCount, distance, rotationX, rotationY
+        );
     }
 
     // 处理触摸事件的方法
@@ -301,17 +344,5 @@ public class PointCloudRenderer implements GLSurfaceView.Renderer {
     // 处理缩放事件
     public void handleScaleEvent(float scaleFactor) {
         zoom(scaleFactor);
-    }
-
-    // 获取当前渲染状态信息
-    public String getRenderInfo() {
-        if (pointCloudData == null) {
-            return "No point cloud data";
-        }
-
-        return String.format(
-                "Points: %,d | Distance: %.1f | Rotation: (%.1f, %.1f)",
-                pointCloudData.pointCount, distance, rotationX, rotationY
-        );
     }
 }
