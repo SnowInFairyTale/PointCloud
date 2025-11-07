@@ -36,6 +36,9 @@ public class ListActivity extends AppCompatActivity {
         findViewById(R.id.smooth).setOnClickListener(v -> {
             startPage("smooth");
         });
+        findViewById(R.id.quality).setOnClickListener(v -> {
+            startPage("quality");
+        });
 
     }
 
